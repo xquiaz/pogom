@@ -230,7 +230,7 @@ function pokemonLabel(name, id, disappear_time, latitude, longitude) {
             <span> - </span>\
             <small>\
                 <a href='http://www.pokemon.com/us/pokedex/" +id+ "' target='_blank' title='View in Pokedex'>#"+id+"</a>\
-            </small> - <a href='pokesniper2://"+name+"/"+latitude+","+longitude+"' style="color:lightgreen"><b>Snipe!</b></a>\
+            </small> - <a href='pokesniper2://"+name+"/"+latitude+","+longitude+"'><b>Snipe!</b></a>\
         </div>\
         <div>\
             Disappears at " +pad(disappear_date.getHours())+ ":"+pad(disappear_date.getMinutes())+":"+pad(disappear_date.getSeconds())+"\
