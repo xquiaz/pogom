@@ -40,8 +40,8 @@ function pad(num, size) {
 }
 
 document.getElementById('pokemon-checkbox').checked = getFromStorage("displayPokemons", "true");
-document.getElementById('gyms-checkbox').checked = getFromStorage("displayGyms", "true");
-document.getElementById('coverage-checkbox').checked = getFromStorage("displayCoverage", "true");
+// document.getElementById('gyms-checkbox').checked = getFromStorage("displayGyms", "true");
+// document.getElementById('coverage-checkbox').checked = getFromStorage("displayCoverage", "true"); << Disable map coverage-checkbox
 
 
 $.getJSON("locale").done(function(data) {
@@ -148,8 +148,8 @@ function updateHeatMap() {
 }
 
 function initMap() {
-    var initLat = 40.782850;  // NYC Central Park
-    var initLng = -73.965288;
+    var initLat = 0.517632;  // Pekanbaru
+    var initLng = 101.447142;
 
     if (initialScanLocations.length !== 0) {
         initLat = initialScanLocations[0].latitude;
@@ -214,12 +214,97 @@ function initMap() {
     initGeoLocation();
 };
 
+function addCurrLocationMarker() {
+    var locationMarker = new google.maps.Marker({
+        map: map,
+        animation: google.maps.Animation.DROP,
+        position: {
+            lat: 0,
+            lng: 0
+        },
+        icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            fillOpacity: 1,
+            fillColor: '#1c8af6',
+            scale: 6,
+            strokeColor: '#1c8af6',
+            strokeWeight: 8,
+            strokeOpacity: 0.3
+        }
+    })
+
+    locationMarker.setVisible(false)
+
+    return locationMarker;
+}
+
+function addMyLocationIcon(locationButton) {
+    var locationIcon = document.createElement('div')
+    locationIcon.style.margin = '5px'
+    locationIcon.style.width = '18px'
+    locationIcon.style.height = '18px'
+    locationIcon.style.backgroundImage = 'url(static/icons/mylocation-sprite-1x.png)'
+    locationIcon.style.backgroundSize = '180px 18px'
+    locationIcon.style.backgroundPosition = '0px 0px'
+    locationIcon.style.backgroundRepeat = 'no-repeat'
+    locationIcon.id = 'current-location-icon'
+    locationButton.appendChild(locationIcon)
+
+    return locationIcon;
+}
+
+function addMyLocationButton() {
+    var locationContainer = document.createElement('div')
+
+    var locationButton = document.createElement('button')
+    locationButton.style.backgroundColor = '#fff'
+    locationButton.style.border = 'none'
+    locationButton.style.outline = 'none'
+    locationButton.style.width = '28px'
+    locationButton.style.height = '28px'
+    locationButton.style.borderRadius = '2px'
+    locationButton.style.boxShadow = '0 1px 4px rgba(0,0,0,0.3)'
+    locationButton.style.cursor = 'pointer'
+    locationButton.style.marginRight = '10px'
+    locationButton.style.padding = '0px'
+    locationButton.title = 'Your Location'
+    locationContainer.appendChild(locationButton)
+
+    locationContainer.index = 1;
+    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locationContainer);
+
+    return locationButton;
+}
+
+function centerMapOnLocation() {
+    navigator.geolocation.getCurrentPosition(function (position) {
+        var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        map.setCenter(latlng);
+    });
+}
+
 function initGeoLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            map.setCenter({lat: position.coords.latitude, lng: position.coords.longitude});
+    if (!navigator.geolocation) return;
+
+    var locationButton = addMyLocationButton();
+    var locationIcon = addMyLocationIcon(locationButton);
+    var locationMarker = addCurrLocationMarker();
+    var watchId;
+
+    locationButton.addEventListener('click', function () {
+        if (watchId) { navigator.geolocation.clearWatch(watchId) };
+        centerMapOnLocation();
+        locationIcon.style.backgroundPosition = '-144px 0px';
+        locationMarker.setVisible(true);
+        map.setZoom(15);
+
+        watchId = navigator.geolocation.watchPosition(function(position) {
+            var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            locationMarker.setPosition(latlng);
         });
-    }
+    });
+
+    centerMapOnLocation();
 }
 
 function pokemonLabel(name, id, disappear_time, latitude, longitude) {
@@ -229,17 +314,17 @@ function pokemonLabel(name, id, disappear_time, latitude, longitude) {
             <b>" +name+ "</b>\
             <span> - </span>\
             <small>\
-                <a href='http://www.pokemon.com/us/pokedex/" +id+ "' target='_blank' title='View in Pokedex'>#"+id+"</a>\
-            </small> - <a href='pokesniper2://"+name+"/"+latitude+","+longitude+"'><b>Snipe!</b></a>\
+                <!-- <a href='http://www.pokemon.com/us/pokedex/" +id+ "' target='_blank' title='View in Pokedex'>#"+id+"</a> -->\
+            </small> <small><a href='pokesniper2://"+ name.replace(/[^A-Za-z0-9]/g, '') +"/"+latitude+","+longitude+"'>#</a></small>\
         </div>\
         <div>\
-            Disappears at " +pad(disappear_date.getHours())+ ":"+pad(disappear_date.getMinutes())+":"+pad(disappear_date.getSeconds())+"\
-            <span class='label-countdown' disappears-at='"+disappear_time+"'>(00m00s)</span></div>\
+            <!-- Disappears at " +pad(disappear_date.getHours())+ ":"+pad(disappear_date.getMinutes())+":"+pad(disappear_date.getSeconds())+" -->\
+            Disappears in <span class='label-countdown' disappears-at='"+disappear_time+"'>(00m00s)</span></div>\
         <div>\
             <a href='https://www.google.com/maps/dir/Current+Location/"+latitude+","+longitude+"'\
                     target='_blank' title='View in Maps'>Get Directions</a>\
-            <a href='#' onclick='removePokemon(\"" + id + "\")')>Hide " + name + "s</a>\
-            <a href='#' onclick='addToNotify(\"" + id + "\")')>Notify</a>\
+            <a href='#' onclick='removePokemon(\"" + id + "\")')>Hide</a>\
+            <a href='#' onclick='addToNotify(\"" + id + "\")')></a>\
         </div>";
     return label;
 };
@@ -281,7 +366,7 @@ var map_gyms = {};
 var gym_types = [ "Uncontested", "Mystic", "Valor", "Instinct" ];
 
 function setupPokemonMarker(item) {
-    var myIcon = new google.maps.MarkerImage('static/icons/'+item.pokemon_id+'.png', null, null, null, new google.maps.Size(30,30));
+    var myIcon = new google.maps.MarkerImage('static/icons/'+item.pokemon_id+'.png', null, null, null, new google.maps.Size(40,40));
 
     var marker = new google.maps.Marker({
         position: {lat: item.latitude, lng: item.longitude},

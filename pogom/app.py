@@ -29,7 +29,9 @@ class Pogom(Flask):
         self.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
         self.json_encoder = CustomJSONEncoder
 
-        self.route('/', methods=['GET'])(self.fullmap)
+        self.route('/', methods=['GET'])(self.welcome)
+        self.route('/donate', methods=['GET'])(self.donate)
+        self.route('/home', methods=['GET'])(self.fullmap)
         self.route('/heatmap-data', methods=['GET'])(self.heatmap_data)
         self.route('/map-data', methods=['GET'])(self.map_data)
         self.route('/cover', methods=['GET'])(self.cover)
@@ -57,7 +59,29 @@ class Pogom(Flask):
                                scan_locations=json.dumps(self.scan_config.SCAN_LOCATIONS.values()),
                                gmaps_key=config['GOOGLEMAPS_KEY'],
                                is_authenticated=self.is_authenticated())
+							   
+    def welcome(self):
+        # if 'search_thread' not in [t.name for t in threading.enumerate()]:
+        if (not config.get('GOOGLEMAPS_KEY', None) or
+                not config.get('ACCOUNTS', None)):
+            return redirect(url_for('get_config_site'))
 
+        return render_template('welcome.html',
+                               scan_locations=json.dumps(self.scan_config.SCAN_LOCATIONS.values()),
+                               gmaps_key=config['GOOGLEMAPS_KEY'],
+                               is_authenticated=self.is_authenticated())
+
+    def donate(self):
+        # if 'search_thread' not in [t.name for t in threading.enumerate()]:
+        if (not config.get('GOOGLEMAPS_KEY', None) or
+                not config.get('ACCOUNTS', None)):
+            return redirect(url_for('get_config_site'))
+
+        return render_template('donate.html',
+                               scan_locations=json.dumps(self.scan_config.SCAN_LOCATIONS.values()),
+                               gmaps_key=config['GOOGLEMAPS_KEY'],
+                               is_authenticated=self.is_authenticated())
+							   
     def login(self):
         if self.is_authenticated():
             return redirect(url_for('get_config_site'))
