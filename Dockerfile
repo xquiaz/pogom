@@ -9,7 +9,7 @@ EXPOSE 5000
 WORKDIR /usr/src/app
 
 # Set Entrypoint
-ENTRYPOINT ["python", "./runserver.py", "-H", "0.0.0.0", "-P", "5000"]
+ENTRYPOINT ["python", "./runserver.py", "-H", "0.0.0.0", "-P", "80"]
 
 # Install required system packages
 RUN apk add --no-cache ca-certificates
