@@ -5,7 +5,6 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="mobile-web-app-capable" content="yes">
 	<title>Pokémon Go Map</title>
 
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
@@ -28,20 +27,10 @@ body {
 #menuToggle {
     display: block;
     position: absolute;
-    top: 55px;
+    top: 20px;
     left: 20px;
     background-color: rgba(255, 255, 255, 0.57);
     padding: 10px 10px 5px 10px;
-    z-index: 1;
-    -webkit-user-select: none;
-    user-select: none;
-}
-#navigator {
-    display: block;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-	width: 100%;
     z-index: 1;
     -webkit-user-select: none;
     user-select: none;
@@ -51,8 +40,8 @@ body {
     width: 54px;
     height: 47px;
     position: absolute;
-    top: -17px;
-    left: -15px;
+    top: -7px;
+    left: -5px;
     cursor: pointer;
     opacity: 0;
     /* hide this */
@@ -125,7 +114,7 @@ body {
 #menu {
     position: fixed;
     width: 300px;
-    top: 46px;
+    top: 0;
     left: 0;
     height: 100%;
     overflow: auto;
@@ -142,14 +131,14 @@ body {
     -webkit-transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
 }
 #menu-container {
-    padding: 30px 20px 0 20px;
+    padding: 50px 20px 0 20px;
 }
 @media (max-width: 800px) {
     #menu {
         width: 100%;
     }
     #menuToggle {
-        top: 60x;
+        top: 18px;
         right: 18px;
         left: initial;
     }
@@ -208,39 +197,6 @@ span.select2 {
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
 }
-ul {
-    background-color: #dddddd;
-}
-
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333;
-}
-
-li {
-    float: left;
-}
-
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-/* Change the link color to #111 (black) on hover */
-li a:hover {
-    background-color: #111;
-}
-
-.active {
-    background-color: #4CAF50;
-}
-
 .button1 {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
@@ -255,16 +211,6 @@ li a:hover {
 </head>
 
 <body>
-
-	<div id="navigator">
-	
-			<ul>
-		<li><a href="/stats">Notification</a></li>
-		<li><a href="/donate">Donate</a></li>
-		<li style="float:right"><a class="active" href="/home">Home</a></li>
-		</ul>
-	</div>
-
 	<div id="menuToggle">
 		<input type="checkbox" />
 
@@ -274,8 +220,17 @@ li a:hover {
 
 		<div id="menu">
 			<div id="menu-container">
-				<h1>Map Settings</h1>
-				
+			
+			</p></p>
+			<center>
+			<font style="font-size: 25px; color: #4CAF50; text-align: center"><b>Donate via <i>PayPal</i></b></font>
+			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+			<input type="hidden" name="cmd" value="_s-xclick" />
+			<input type="hidden" name="hosted_button_id" value="GLR6RDFQ4BRRQ" />
+			<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate" />
+			<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+			</form>
+			</center></p></p>
 				<!--
 				<p style="margin: 8px 0">
 					<span class="full-scan label label-grey">No full scan yet</span>
@@ -303,13 +258,13 @@ li a:hover {
 					<input type="checkbox" id="pokestops-lured-checkbox">Display lured Pokestops
 					</div>
 					</label></br></br>
-					
+					-->
 					<label for="gyms-checkbox">
 					<div class="chckbox; chckbox button2">
 					<input type="checkbox" id="gyms-checkbox">Display Gyms
 					</div>
 					</label></br></br>
-					-->
+					
 					<label for="coverage-checkbox">
 					<div class="chckbox; chckbox button2">
 					<input type="checkbox" id="coverage-checkbox">Show Map Coverage
@@ -343,7 +298,7 @@ li a:hover {
 					<span class="auth-status label label-warning" style="color: white; text-decoration: inherit; opacity: 0.0">Not authenticated</span> {% endif %}
 					<span class="last-request label label-warning"style="opacity: 0.0;">No scans yet</span>
 				</p>
-				
+
 			</div>
 		</div>
 	</div>
