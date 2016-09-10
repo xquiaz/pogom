@@ -145,6 +145,22 @@ body {
     #menu-container {
         padding-top: 0;
     }
+	.container {
+    display: block;
+    cursor: pointer;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	}
+	.bottomright {
+    position: fixed;
+    bottom: 5%;
+    font-size: 18px;
+    z-index: 1;
+    -webkit-user-select: none;
+    user-select: none;
+	}
 }
 span.select2 {
     width: 100% !important;
@@ -186,7 +202,7 @@ span.select2 {
     background-color: #4CAF50; /* Green */
     border: none;
     color: white;
-	width: 240px;
+	width: 100%;
     padding: 5px 0px;
     text-align: left;
     text-decoration: none;
@@ -206,11 +222,38 @@ span.select2 {
 	background-color: white;
     color: green;
 }
-
+.container {
+    display: block;
+    cursor: pointer;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.bottomright {
+    position: fixed;
+    bottom: 5%;
+    font-size: 18px;
+    z-index: 1;
+    -webkit-user-select: none;
+    user-select: none;
+}
 	</style>
 </head>
 
 <body>
+		<center>
+		<div class="container" onclick="myFunction(this)"><div class="bottomright">
+		<span style="font-size: 25px; color: #4CAF50;"><b>Donate via <i>PayPal</i></b></span>
+		<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+		<input type="hidden" name="cmd" value="_s-xclick" />
+		<input type="hidden" name="hosted_button_id" value="GLR6RDFQ4BRRQ" />
+		<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate" />
+		<img align="middle" alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+		</form>
+		</div></div>
+		</center>
+		
 	<div id="menuToggle">
 		<input type="checkbox" />
 
@@ -220,17 +263,6 @@ span.select2 {
 
 		<div id="menu">
 			<div id="menu-container">
-			
-			</p></p>
-			<center>
-			<font style="font-size: 25px; color: #4CAF50; text-align: center"><b>Donate via <i>PayPal</i></b></font>
-			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-			<input type="hidden" name="cmd" value="_s-xclick" />
-			<input type="hidden" name="hosted_button_id" value="GLR6RDFQ4BRRQ" />
-			<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate" />
-			<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
-			</form>
-			</center></p></p>
 				<!--
 				<p style="margin: 8px 0">
 					<span class="full-scan label label-grey">No full scan yet</span>
@@ -239,7 +271,7 @@ span.select2 {
 					<span class="num-accounts label label-grey">0 Accounts</span>
 				</p>
 				-->
-
+				</p></p>
 				<fieldset style="border: 0; padding-left: 0;">
 					<label for="pokemon-checkbox">
 					<div class="chckbox; chckbox button2">
@@ -310,7 +342,6 @@ span.select2 {
 <script type="text/javascript">
 	var initialScanLocations = {{ scan_locations | safe }}
 </script>
-
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <script type="text/javascript" src="static/map.js"></script>
