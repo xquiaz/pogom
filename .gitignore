@@ -9,7 +9,6 @@
 # Virtual Environment #
 #######################
 venv/
-env/
 
 # IDEA #
 ########
